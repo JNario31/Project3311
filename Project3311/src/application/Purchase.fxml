@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.PurchaseController">
+   <children>
+      <VBox layoutX="27.0" layoutY="206.0" prefHeight="135.0" prefWidth="436.0">
+         <children>
+            <TableView fx:id="shoppingCartTableView" fixedCellSize="55.0" prefHeight="138.0" prefWidth="449.0" style="-fx-fixed-cell-size: 55; -fx-background-size: 40;">
+              <columns>
+                <TableColumn fx:id="boardID" prefWidth="55.0" text="ID" />
+                <TableColumn fx:id="boardName" prefWidth="95.0" text="Name" />
+                  <TableColumn fx:id="boardPrice" prefWidth="85.0" text="Price" />
+              </columns>
+            </TableView>
+         </children>
+      </VBox>
+      <VBox layoutX="501.0" layoutY="-4.0" prefHeight="706.0" prefWidth="499.0" style="-fx-background-color: #3c3e3c;">
+         <children>
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="PAYMENT" wrappingWidth="183.203125">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="30.0" top="60.0" />
+               </VBox.margin>
+            </Text>
+            <CheckBox fx:id="debitCheckBox" mnemonicParsing="false" onAction="#payment" text="Debit" textFill="WHITE">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <padding>
+                  <Insets bottom="20.0" left="30.0" top="20.0" />
+               </padding>
+            </CheckBox>
+            <CheckBox fx:id="creditCheckBox" mnemonicParsing="false" onAction="#payment" text="Credit" textFill="WHITE">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <padding>
+                  <Insets left="30.0" />
+               </padding>
+            </CheckBox>
+            <CheckBox fx:id="mobileWalletCheckBox" mnemonicParsing="false" onAction="#payment" text="Mobile Wallet" textFill="WHITE">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <padding>
+                  <Insets bottom="20.0" left="30.0" top="20.0" />
+               </padding>
+            </CheckBox>
+            <TextField fx:id="cardholderNameTextField" prefHeight="25.0" prefWidth="200.0" promptText="Cardholder Name" style="-fx-background-color: #3c3e3c;-fx-text-fill: white;">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <padding>
+                  <Insets bottom="10.0" left="30.0" top="40.0" />
+               </padding>
+            </TextField>
+            <Line endX="300.0" startX="-100.0" stroke="WHITE" strokeWidth="1.5">
+               <VBox.margin>
+                  <Insets left="30.0" />
+               </VBox.margin>
+            </Line>
+            <TextField fx:id="cardNumberTextField" prefHeight="25.0" prefWidth="200.0" promptText="Card Number" style="-fx-background-color: #3c3e3c;-fx-text-fill: white;">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <padding>
+                  <Insets bottom="10.0" left="30.0" top="40.0" />
+               </padding>
+            </TextField>
+            <Line endX="300.0" startX="-100.0" stroke="WHITE" strokeWidth="1.5">
+               <VBox.margin>
+                  <Insets left="30.0" />
+               </VBox.margin>
+            </Line>
+            <TextField fx:id="cvvTextField" prefHeight="25.0" prefWidth="200.0" promptText="CVV" style="-fx-background-color: #3c3e3c;-fx-text-fill: white;">
+               <font>
+                  <Font size="16.0" />
+               </font>
+               <padding>
+                  <Insets bottom="10.0" left="30.0" top="40.0" />
+               </padding>
+            </TextField>
+            <Line endX="300.0" startX="-100.0" stroke="WHITE" strokeWidth="1.5">
+               <VBox.margin>
+                  <Insets bottom="30.0" left="30.0" />
+               </VBox.margin>
+            </Line>
+            <DatePicker fx:id="datePicker" prefHeight="33.0" prefWidth="213.0">
+               <VBox.margin>
+                  <Insets left="30.0" />
+               </VBox.margin>
+            </DatePicker>
+         </children>
+      </VBox>
+      <CheckBox fx:id="academicCheckBox" layoutX="304.0" layoutY="254.0" mnemonicParsing="false" onAction="#totalAmount" prefHeight="111.0" prefWidth="116.0" text="Academic">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </CheckBox>
+      <CheckBox fx:id="nonAcademicCheckBox" layoutX="304.0" layoutY="246.0" mnemonicParsing="false" onAction="#totalAmount" prefHeight="35.0" prefWidth="141.0" text="Non-Academic">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </CheckBox>
+      <Text layoutX="27.0" layoutY="182.0" strokeType="OUTSIDE" strokeWidth="0.0" text="My Shopping Cart">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Text>
+      <ImageView fitHeight="110.0" fitWidth="200.0" layoutX="34.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@YorkU.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="goBackButton" layoutX="877.0" layoutY="633.0" mnemonicParsing="false" onAction="#onGoBackButtonAction" prefHeight="25.0" prefWidth="98.0" style="-fx-background-color: #3c3e3c;" text="Go Back" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Button>
+      <Button fx:id="placeOrderButton" layoutX="713.0" layoutY="582.0" mnemonicParsing="false" onAction="#totalAmount" prefHeight="25.0" prefWidth="158.0" style="-fx-background-color: #b00; -fx-background-radius: 5 5 5 5;" text="Place Your Order" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Button>
+      <ImageView fitHeight="311.0" fitWidth="379.0" layoutX="91.0" layoutY="380.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Board.jpg" />
+         </image>
+      </ImageView>
+      <Label fx:id="totalAmount" layoutX="859.0" layoutY="52.0" prefHeight="44.0" prefWidth="98.0" text="\$" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

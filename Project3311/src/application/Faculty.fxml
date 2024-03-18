@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="700.0" prefWidth="1000.0" style="-fx-background-color: WHITE" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.FacultyController">
+   <children>
+      <ImageView fx:id="yorkuLabel" fitHeight="107.0" fitWidth="208.0" layoutY="-4.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@YorkU.png" />
+         </image>
+      </ImageView>
+      <AnchorPane layoutX="198.4" layoutY="99.2" prefHeight="909.0" prefWidth="802.0" style="-fx-background-color: #e0e0e0; -fx-background-radius: 0;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="198.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="99.0">
+         <children>
+            <VBox layoutX="505.0" layoutY="105.0" prefHeight="650.0" prefWidth="274.0" style="-fx-background-color: WHite; -fx-background-radius: 5 5 5 5;" />
+            <TableView fx:id="itemTableView" layoutX="80.0" layoutY="105.0" onMouseClicked="#textbookSelection" prefHeight="650.0" prefWidth="390.0" style="-fx-background-color: WHITE; -fx-background-radius: 5 5 5 5;">
+               <columns>
+                  <TableColumn fx:id="itemNameTableColumn" prefWidth="221.0" text="  Name" />
+                  <TableColumn fx:id="itemTypeTableColumn" minWidth="0.0" prefWidth="93.0" text="Type" />
+                  <TableColumn fx:id="itemIdTableColumn" prefWidth="85.0" text="ID" />
+               </columns>
+            </TableView>
+            <Label fx:id="sectionLabel" layoutX="80.0" layoutY="39.0" text="Rented Items" textFill="#bb0000">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <Label fx:id="descriptionLabel" layoutX="562.0" layoutY="447.0" prefHeight="129.0" prefWidth="168.0" text="Description">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <ImageView fx:id="textbookCover" fitHeight="298.0" fitWidth="208.0" layoutX="538.0" layoutY="135.0" pickOnBounds="true" preserveRatio="true" visible="false" AnchorPane.leftAnchor="547.0">
+               <image>
+                  <Image url="@TextbookPicture.png" />
+               </image>
+               <effect>
+                  <DropShadow blurType="TWO_PASS_BOX" height="39.72" radius="15.265" width="23.34" />
+               </effect>
+            </ImageView>
+            <Label fx:id="textbookNameLabel" layoutX="592.0" layoutY="172.0" text="Textbook Name" textFill="WHITE">
+               <font>
+                  <Font name="Times New Roman" size="14.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets left="10.0" right="15.0" />
+               </padding>
+            </Label>
+            <Button fx:id="readNowButton" alignment="BASELINE_CENTER" layoutX="561.0" layoutY="611.0" mnemonicParsing="false" onAction="#textbookSelection" prefHeight="20.0" prefWidth="178.0" style="-fx-background-color: #b00; -fx-background-radius: 5 5 5 5;" text="Read Now" textFill="WHITE" />
+         </children>
+      </AnchorPane>
+      <Pane layoutX="-1.0" layoutY="99.0" prefHeight="770.0" prefWidth="246.0" style="-fx-background-color: #b00; -fx-background-radius: 0 40 0 0;">
+         <children>
+            <Button fx:id="homeButton" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutY="69.0" mnemonicParsing="false" onAction="#switchToHomeView" prefHeight="45.0" prefWidth="246.0" style="-fx-background-color: #b00;" text="Home" textFill="WHITE">
+               <padding>
+                  <Insets left="70.0" />
+               </padding>
+               <graphic>
+                  <FontAwesomeIcon fill="WHITE" glyphName="HOME" size="20" />
+               </graphic>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="storeButton" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutY="114.0" mnemonicParsing="false" onAction="#switchToStoreView" prefHeight="45.0" prefWidth="246.0" style="-fx-background-color: #b00;" text="Store" textFill="WHITE">
+               <padding>
+                  <Insets left="70.0" />
+               </padding>
+               <graphic>
+                  <FontAwesomeIcon fill="WHITE" glyphName="BOOK" size="20" />
+               </graphic>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="eTextbooksButton" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="1.0" layoutY="159.0" mnemonicParsing="false" onAction="#switchToETextbooksView" prefHeight="45.0" prefWidth="236.0" style="-fx-background-color: #b00;" text="eTextbbooks" textFill="WHITE">
+               <padding>
+                  <Insets left="70.0" />
+               </padding>
+               <graphic>
+                  <FontAwesomeIcon fill="WHITE" glyphName="LAPTOP" size="20" />
+               </graphic>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="newsletterButton" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="1.0" layoutY="204.0" mnemonicParsing="false" onAction="#switchToNewsletterView" prefHeight="45.0" prefWidth="236.0" style="-fx-background-color: #b00;" text="Newsletter" textFill="WHITE">
+               <padding>
+                  <Insets left="70.0" />
+               </padding>
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <graphic>
+                  <FontAwesomeIcon fill="WHITE" glyphName="LIST" size="20" />
+               </graphic>
+            </Button>
+            <Button fx:id="logoutButton" alignment="BASELINE_CENTER" graphicTextGap="0.0" layoutX="10.0" layoutY="506.0" mnemonicParsing="false" onAction="#switchToLoginView" prefHeight="40.0" prefWidth="228.0" style="-fx-background-color: #b00;" text="Log-Out" textFill="WHITE">
+               <padding>
+                  <Insets top="150.0" />
+               </padding>
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Button>
+            <Button fx:id="purchaseButton" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="6.0" layoutY="249.0" mnemonicParsing="false" onAction="#switchToPurchaseView" prefHeight="45.0" prefWidth="236.0" style="-fx-background-color: #b00;" text="Purchase" textFill="WHITE">
+               <padding>
+                  <Insets left="70.0" />
+               </padding>
+               <graphic>
+                  <FontAwesomeIcon fill="WHITE" glyphName="USD" size="20" />
+               </graphic>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button fx:id="notificationsButton" alignment="BASELINE_LEFT" graphicTextGap="10.0" layoutX="1.0" layoutY="294.0" mnemonicParsing="false" onAction="#switchToNotificationsView" prefHeight="45.0" prefWidth="236.0" style="-fx-background-color: #b00;" text="Notifications" textFill="WHITE">
+               <padding>
+                  <Insets left="70.0" />
+               </padding>
+               <graphic>
+                  <FontAwesomeIcon fill="WHITE" glyphName="BELL" size="20" />
+               </graphic>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+      <Label fx:id="userLabel" alignment="BASELINE_LEFT" layoutX="885.0" layoutY="39.0" prefHeight="12.0" prefWidth="89.0" text="User">
+         <font>
+            <Font size="14.0" />
+         </font>
+         <opaqueInsets>
+            <Insets bottom="5.0" />
+         </opaqueInsets>
+      </Label>
+      <FontAwesomeIcon fill="#767676" glyphName="USER" layoutX="863.0" layoutY="55.0" size="20" text="">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </FontAwesomeIcon>
+      <TextField fx:id="searchField" layoutX="264.0" layoutY="39.0" prefHeight="20.0" prefWidth="570.0" promptText="Search..." style="-fx-background-color: #e0e0e0; -fx-background-radius: 5 5 5 5;" />
+   </children>
+</AnchorPane>

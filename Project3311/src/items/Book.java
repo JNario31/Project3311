@@ -1,0 +1,14 @@
+package items;
+
+public class Book extends Item{
+
+	public Book(String type,String name, int ID, String location, String purchase, String email, double Price) {
+		super(type, name, ID, location, purchase, email, Price);
+		
+	}
+	public Book(){
+		super();
+	}
+	
+}
+
