@@ -1,6 +1,7 @@
 package application;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 import items.Board;
 import items.Book;
@@ -81,6 +82,13 @@ public class StudentController extends AppController{
 
 	@FXML
 	private Label textbookNameLabel;
+	
+	@FXML
+    private Button readNewsletterButton; //added
+    
+    @FXML
+    private Button unsubscribeButton;    //added 
+
 
 	@FXML
 	private Button readNowButton;
@@ -118,6 +126,9 @@ public class StudentController extends AppController{
 
 	@FXML 
 	private TableView<Item> itemTableView;
+	
+	@FXML
+    private Button subscribeButton; 
 
 	@FXML
 	private TableColumn<Item,String> itemNameTableColumn;
@@ -139,16 +150,7 @@ public class StudentController extends AppController{
 
 	@FXML
 	private TableColumn<Course,String> courseDateColumn;
-	
-	 @FXML
-	    private Button subscribeButton; 
-
-	 @FXML
-	    void subscribeButtonOnAction(ActionEvent e) {
-	        Database.getInstance().getNewsletterService().subscribe(user);
-	    } 
-
-
+ 
 
 	ObservableList<Item> itemSearchObservableList = FXCollections.observableArrayList();
 	ObservableList<Course> courseObservableList=FXCollections.observableArrayList();
@@ -165,6 +167,10 @@ public class StudentController extends AppController{
 		rentButton.setVisible(false);
 		courseTableView.setVisible(false);
 		itemTableView.setVisible(true);
+		readNewsletterButton.setVisible(false); //added
+        unsubscribeButton.setVisible(false);    //added
+        requestItemButton.setVisible(false);    //added
+        subscribeButton.setVisible(false);        //added 
 		removeTextbookDetails();
 
 		requestFormVBox.setVisible(false);
@@ -172,6 +178,27 @@ public class StudentController extends AppController{
 		requestTypeComboBox.setItems(FXCollections.observableArrayList("Course Teaching","Self-Improvment"));
 	}
 
+	//added
+    @FXML
+    private void readNewsletterButtonButtonOnAction(ActionEvent e) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("Newsletter.fxml"));
+        Parent root = loader.load();
+        stage = (Stage)((Node)e.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+    } 
+    
+    @FXML
+    private void unsubscribeButtonOnAction(ActionEvent e) throws IOException {
+        Database.getInstance().getNewsletterService().unsubscribe(user);
+        
+    } 
+	
+	 
+	@FXML
+    void subscribeButtonOnAction(ActionEvent e) {
+        Database.getInstance().getNewsletterService().subscribe(user);
+    } 
 
 	/*On home button click add user rentedItemsList() to observable list
 	 *Displays on TableView
@@ -184,8 +211,10 @@ public class StudentController extends AppController{
 		requestFormVBox.setVisible(false);
 		requestItemButton.setVisible(false);
 		itemSearchObservableList.addAll(user.getRentedItemsList());
-		sectionLabel.setText("Rented Items");
+		sectionLabel.setText("Home");
 	}
+	
+	
 
 	/*On store button click add item stock to observable list
 	 * Displays on TableView
@@ -207,6 +236,23 @@ public class StudentController extends AppController{
 
 				user.rentItem(selectedItem); // Rent a item from rentItem in User
 				itemSearchObservableList.remove(selectedItem); // Remove the Object from the observable list 
+				
+				selectedItem.setDate(LocalDate.now()); //set the rental date (today's Date)
+				LocalDate dueDate = LocalDate.now().plusDays(1); //Set the due date to 30 days from today
+				selectedItem.setDueDate(dueDate);
+				
+				//Compare the rented date and the due date (less than 24hours for warning)
+				//For demo due date has been set to 1 day 
+				LocalDate rentedDate = LocalDate.now(); 
+				LocalDate approchingDueDate = selectedItem.getDueDate().minusDays(1);
+				if(rentedDate.isEqual(approchingDueDate)) {
+					Alert alert = new Alert(AlertType.WARNING);
+					alert.setContentText("Item is due in less than 24 hours!!!!!!");
+					alert.setTitle("Warning");
+					alert.setHeaderText(null);
+					alert.showAndWait();
+					
+				}
 
 				Alert alert = new Alert(Alert.AlertType.INFORMATION);
 				alert.setContentText("Item rented successfully!");
@@ -255,6 +301,8 @@ public class StudentController extends AppController{
 		if ("eTextbooks".equals(sectionLabel.getText())) { // Check if user is in "eTextbooks" section
 			if (selectedTextbook != null && "textbook".equals(selectedTextbook.getType())) { // Check if the item is a item textbook
 				readNowButton.setVisible(true);
+				readNewsletterButton.setVisible(false);    //added
+		        unsubscribeButton.setVisible(false);    //added 
 				rentButton.setVisible(false);
 				purchaseButton.setVisible(false);
 				itemDescription(selectedTextbook);
@@ -270,6 +318,8 @@ public class StudentController extends AppController{
 		} else if ("Store".equals(sectionLabel.getText())) { // Check if user is in "Store" section
 			if (selectedTextbook != null) { // Check if any item is selected
 				rentButton.setVisible(true);
+				readNewsletterButton.setVisible(false);    //added
+		        unsubscribeButton.setVisible(false);    //added 
 				readNowButton.setVisible(false);
 				itemDescription(selectedTextbook);
 				textbookNameLabel.setText(selectedTextbook.getName());
@@ -294,12 +344,15 @@ public class StudentController extends AppController{
 			} else {
 				rentButton.setVisible(false);
 			}
-		} else if("Home".equals(sectionLabel.getText())) {
-			if(selectedTextbook != null && "newsletter".equals(selectedTextbook.getType())) {
-				
-			}
-			
-		}
+		} else if("Home".equals(sectionLabel.getText())) {                //added
+            if(selectedTextbook != null && "newsletter".contains(selectedTextbook.getType())) {    //added
+                readNewsletterButton.setVisible(true);    //added
+                unsubscribeButton.setVisible(true);    //added
+            }else {
+                removeTextbookDetails();
+            }
+            
+        } 
 		
 		
 		else {
@@ -332,6 +385,9 @@ public class StudentController extends AppController{
 		textbookCover.setVisible(false);
 		readNowButton.setVisible(false);
 		rentButton.setVisible(false);
+		subscribeButton.setVisible(false);        //added
+        unsubscribeButton.setVisible(false);     //added
+        readNewsletterButton.setVisible(false);    //added 
 	}
 
 	/*On Log-out button click, the user is logged out and brought back to
@@ -439,7 +495,7 @@ public class StudentController extends AppController{
 	        this.user = Database.getInstance().getStudent(email,password);
 	        displayUser();
 
-
+	        sectionLabel.setText("Home");    //added 
 	        Database.getInstance().loadStock();    //Loads library stock in database class
 	        Database.getInstance().loadSubscription(user);
 	        user.loadRentedItemsList();            //Loads user rented items in User class

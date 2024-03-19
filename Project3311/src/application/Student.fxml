@@ -152,12 +152,22 @@
                   </ComboBox>
                </children>
             </VBox>
+            <Button fx:id="unsubscribeButton" alignment="CENTER" layoutX="569.0" layoutY="625.0" mnemonicParsing="false" onAction="#unsubscribeButtonOnAction" prefHeight="30.0" prefWidth="178.0" style="-fx-background-color: #b00; -fx-background-radius: 5 5 5 5;" text="Unsubscribe" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
             <Button fx:id="requestItemButton" alignment="CENTER" layoutX="268.0" layoutY="664.0" mnemonicParsing="false" onAction="#switchToRequestView" prefHeight="30.0" prefWidth="347.0" style="-fx-background-color: #b00; -fx-background-radius: 5 5 5 5;" text="Request" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
             <Button fx:id="subscribeButton" alignment="CENTER" layoutX="573.0" layoutY="586.0" mnemonicParsing="false" onAction="#subscribeButtonOnAction" prefHeight="30.0" prefWidth="178.0" style="-fx-background-color: #b00; -fx-background-radius: 5 5 5 5;" text="Subscribe" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+            <Button fx:id="readNewsletterButton" alignment="CENTER" layoutX="569.0" layoutY="586.0" mnemonicParsing="false" onAction="#readNewsletterButtonButtonOnAction" prefHeight="30.0" prefWidth="178.0" style="-fx-background-color: #b00; -fx-background-radius: 5 5 5 5;" text="Read" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>

@@ -15,6 +15,7 @@ public class Course {
 	String instructor;
 	ArrayList<Student> students = new ArrayList<>();
 	ArrayList<Item> eTextbooks = new ArrayList<>();
+	ArrayList<Item> textbooks = new ArrayList<>();
 	
 	
 	public Course(String title,String id) {
@@ -71,6 +72,14 @@ public class Course {
 	
 	public ArrayList<Student> getStudents() {
 		return students;
+	}
+
+	public void addTextbooks(Item textbook) {
+		this.textbooks.add(textbook);
+		
+	}
+	public ArrayList<Item> getTextbooks(){
+		return this.textbooks;
 	}
 	
 }

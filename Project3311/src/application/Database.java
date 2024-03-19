@@ -3,7 +3,10 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.ResourceBundle;
 
 import com.csvreader.CsvReader;
@@ -31,6 +34,7 @@ public class Database {
 	private static  Database instance;
 	public ArrayList<User> users = new ArrayList<User>();
 	public ArrayList<Student> students = new ArrayList<>();
+	public ArrayList<Faculty> instructors = new ArrayList<>();
 	public ArrayList<Item> items = new ArrayList<Item>();
 	public ArrayList<Item> stock = new ArrayList<>();
 	public ArrayList<Course> courses = new ArrayList<>();
@@ -120,29 +124,46 @@ public class Database {
 	}
 	
 	public ArrayList<Student> loadStudents(String path) throws IOException {
-		ArrayList<Student> students = new ArrayList<>();
+		ArrayList<Student> list = new ArrayList<>();
 		CsvReader reader = new CsvReader(path);
 		reader.readHeaders();
 		
 		//Loads Users from csv file to users arraylist
 		while(reader.readRecord()){ 
-			Student student = new Student();
 			//name,id,email,password
-			student.setFirstName(reader.get("firstname"));
-			student.setLastName(reader.get("lastname"));
-			student.setId(Integer.valueOf(reader.get("id")));
-			student.setEmail(reader.get("email"));
-			students.add(student);
+			for(Student u: students) {
+				if(reader.get("id").equals(String.valueOf(u.getId()))) {
+					list.add(u);
+				}
+			}
+			
 		}
-		return students;
+		return list;
 	}
+//	public ArrayList<Faculty> loadInstructors(String path) throws IOException {
+//		ArrayList<Faculty> instructors = new ArrayList<>();
+//		CsvReader reader = new CsvReader(path);
+//		reader.readHeaders();
+//		
+//		//Loads Users from csv file to users arraylist
+//		while(reader.readRecord()){ 
+//			Student student = new Student();
+//			//name,id,email,password
+//			student.setFirstName(reader.get("firstname"));
+//			student.setLastName(reader.get("lastname"));
+//			student.setId(Integer.valueOf(reader.get("id")));
+//			student.setEmail(reader.get("email"));
+//			students.add(student);
+//		}
+//		return students;
+//	}
 	
 
 	
 	public void loadStudents() throws IOException {
 		for(User u: users) {
 			if(u.getUserType().equals("student")) {
-				students.add(new Student(u.getFirstName(),u.getLastName(),u.getId(),u.getEmail(),u.getPassword(),u.getUserType(),u.getStatus()));
+				students.add((Student) u);
 			}
 		}
 	}
@@ -196,6 +217,16 @@ public class Database {
 				item.setUserEmail(reader.get("email"));
 				item.setPrice(Double.valueOf(reader.get("price")));
 				items.add(item); 
+			}else if(reader.get("type").equals("etextbook")) {
+				Item item = new Textbook();
+				item.setType(reader.get("type"));
+				item.setName(reader.get("name")); 
+				item.setId(Integer.valueOf(reader.get("id"))); 
+				item.setLocation(reader.get("location")); 
+				item.setPurchase(reader.get("purchase")); 
+				item.setUserEmail(reader.get("email"));
+				item.setPrice(Double.valueOf(reader.get("price")));
+				items.add(item); 
 			}else if(reader.get("type").equals("board")) {
 				Item item = new Board();
 				item.setType(reader.get("type"));
@@ -240,6 +271,10 @@ public class Database {
 	            currentItem = new Book();
 	        } else if (itemType.equals("magazine")) {
 	            currentItem = new Magazine();
+	        } else if (itemType.equals("board")) {
+	            currentItem = new Magazine();
+	        }else if (itemType.equals("newsletter")) {
+	            currentItem = new Magazine();
 	        }
 	        
 	        if(currentItem!=null) {
@@ -252,8 +287,11 @@ public class Database {
 	            currentItem.setPrice(Double.valueOf(reader.get("price")));
 
 	            // Update the item's email if it matches the ID of the item being rented
+				// Update the item's due date
 	            if (currentItem.getId() == item.getId()) {
 	                currentItem.setUserEmail(item.getUserEmail());
+	                currentItem.setDueDate(item.getDueDate());
+	                currentItem.setDate(item.getDate());
 	            }
 
 	            updatedItems.add(currentItem);
@@ -270,6 +308,7 @@ public class Database {
 	    writer.write("purchase");
 	    writer.write("email");
 	    writer.write("price");
+	    writer.write("due_date"); //add the due date in a new column 
 	    writer.endRecord();
 	    for (Item updatedItem : updatedItems) {
 	        writer.write(updatedItem.getType());
@@ -279,6 +318,17 @@ public class Database {
 	        writer.write(updatedItem.getPurchase());
 	        writer.write(updatedItem.getUserEmail());
 	        writer.write(String.valueOf(updatedItem.getPrice()));
+	        
+	        //Print the due date to the items csv
+	        if(updatedItem.getId() == item.getId()) {
+	        	if(updatedItem.getDueDate() != null) {
+	        		writer.write(updatedItem.getDueDate().toString());
+	        	} else {
+	        		LocalDate duedate = LocalDate.now().plusDays(1);
+	        		writer.write(duedate.toString());
+	        	}
+	 
+	        }
 	        writer.endRecord();
 	    }
 	    writer.close();
@@ -308,7 +358,7 @@ public class Database {
 	
 	public void loadSubscription(User user) {
 		if(checkSubscribed(user)) {
-			user.rentItem(service.getNewsletter());
+			user.rentItem((Newsletter)service.getNewsletter());
 		}
 	}
 	
@@ -343,7 +393,7 @@ public class Database {
 	public void loadNewsletterService() {
 		for (Item i: items) {
 			if(i.getType().equals("newsletter")) {
-				service.setNewsletter(i);
+				service.setNewsletter((Newsletter)i);
 			}
 		}
 	}
@@ -525,8 +575,18 @@ public class Database {
 	public void loadCoursesETextbooks() throws IOException{
 		for(Course course: courses) {
 			for(Item eTextbook: items) {
-				if(eTextbook.getType().equals("textbook") && eTextbook.getUserEmail().equals(course.getId())) {
+				if(eTextbook.getType().equals("etextbook") && eTextbook.getUserEmail().equals(course.getId())) {
 					course.addETextbooks(eTextbook);
+				}
+			}
+		}
+		
+	}
+	public void loadCoursesTextbooks() throws IOException{
+		for(Course course: courses) {
+			for(Item textbook: items) {
+				if(textbook.getType().equals("textbook")) {
+					course.addTextbooks(textbook);
 				}
 			}
 		}
@@ -555,11 +615,19 @@ public class Database {
         Database.getInstance().loadItems();
         Database.getInstance().loadCourses();
         Database.getInstance().loadEnroll();
+        System.out.println(Database.getInstance().getCourses().get(2).getStudents());
+        System.out.println(Database.getInstance().getItems());
+        System.out.println(Database.getInstance().getCourses().get(0).getId());
+        System.out.println(Database.getInstance().getItems().get(21).getUserEmail());
+        
         Database.getInstance().loadCoursesETextbooks();
         Database.getInstance().loadNewsletterService();
         Database.getInstance().loadNewsletterServiceSubscribers();
-        System.out.println(Database.getInstance().service.getSubscribers());
-        System.out.println(Database.getInstance().service.getSubscribers().get(2).rentedItems);
+        System.out.println(Database.getInstance().getCourses());
+        System.out.println(Database.getInstance().getCourses().get(2).getETextbooks());
+        System.out.println(Database.getInstance().getCourses().get(1).getETextbooks());
+        System.out.println(Database.getInstance().getCourses().get(0).getETextbooks());
+        System.out.println(Database.getInstance().getCourses().get(2).getTextbooks());
     } 
 
 	

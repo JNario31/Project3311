@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ToolBar?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.web.WebView?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.NewsletterController">
+   <children>
+      <ToolBar layoutX="3.0" layoutY="6.0" prefHeight="13.0" prefWidth="794.0" style="-fx-background-color: White;">
+        <items>
+          <Button fx:id="returnButton" mnemonicParsing="false" onAction="#returnButtonOnAction" prefHeight="25.0" prefWidth="70.0" style="-fx-background-color: RED;" text="Return" textFill="WHITE" />
+        </items>
+      </ToolBar>
+      <WebView fx:id="webView" layoutY="41.0" prefHeight="536.0" />
+   </children>
+</AnchorPane>

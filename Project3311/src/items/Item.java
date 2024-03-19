@@ -1,5 +1,8 @@
 package items;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 public abstract class Item {
 
 	public String type;
@@ -9,6 +12,8 @@ public abstract class Item {
 	public String purchase;
 	public String email;
 	public double price;
+	public LocalDate dueDate;
+	public LocalDate date;
 
 	
 		public Item(String type,String name, int id, String location, String purchase, String email, double price) {
@@ -81,12 +86,28 @@ public abstract class Item {
 			this.price = price;
 		}
 		
+		public void setDueDate(LocalDate dueDate) {
+			this.dueDate = dueDate;
+		}
+		
+		public LocalDate getDueDate() {
+			return dueDate;
+		}
+		
+		public LocalDate getDate() {
+			return date;
+		}
+		
+		public void setDate(LocalDate date) {
+			this.date = date;
+		}
+
+		
 		public String toString() {
 	        return this.getName();
 	    }
 	
 }
-
 
 
 

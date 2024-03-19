@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import items.Item;
+import items.Newsletter;
 import users.Student;
 import users.User;
 
@@ -13,18 +14,18 @@ public class NewsletterService implements Notifications{
 
 	
 	private ArrayList<User> subscribers = new ArrayList<>();
-	public Item newsletter;
+	public Newsletter newsletter;
 	
 
 
 
 
-	public void setNewsletter(Item i) {
+	public void setNewsletter(Newsletter i) {
 		this.newsletter=i;
 	}
 	
 	@Override
-	public Item visit(User user) {
+	public Newsletter visit(User user) {
 		
 		return this.newsletter;
 		
@@ -36,6 +37,10 @@ public class NewsletterService implements Notifications{
 			u.accept(this);
 		}
 		
+	}
+	
+	public void add(User u) {
+		subscribers.add(u);
 	}
 
 	@Override
@@ -50,10 +55,17 @@ public class NewsletterService implements Notifications{
 		}
 		
 	}
-
+	
+	
+	//added
 	@Override
-	public void unsubscribe(User user) {
+	public void unsubscribe(User user) throws IOException {
+	
+		user.unrentItem(newsletter);
 		subscribers.remove(user);
+	
+		
+		Database.getInstance().addNewsletterServiceSubscribers();
 		
 	}
 	
@@ -73,7 +85,8 @@ public class NewsletterService implements Notifications{
 		
 	}
 	
-	public Item getNewsletter() {
+	//added
+	public Newsletter getNewsletter() {
 		return newsletter;
 	}
 	

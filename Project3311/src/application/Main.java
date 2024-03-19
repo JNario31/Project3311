@@ -27,6 +27,7 @@ public class Main extends Application {
 	            Database.getInstance().loadCoursesETextbooks();
 	            Database.getInstance().loadNewsletterService();
 	            Database.getInstance().loadNewsletterServiceSubscribers();
+	         
 	            
 	            
 	            Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));

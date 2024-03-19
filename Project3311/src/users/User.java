@@ -49,6 +49,10 @@ public abstract class User implements Subscriber{
 		rentedItems.add(i);
 	}
 	
+	public void unrentItem(Item i) {
+		rentedItems.remove(i);
+	}
+	
 	
 	public ArrayList<Item> getRentedItemsList() throws IOException{
 		return rentedItems;
