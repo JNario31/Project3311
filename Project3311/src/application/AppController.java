@@ -96,7 +96,6 @@ public class AppController{
     @FXML
     private Button unsubscribeButton;    //added 
 
-
 	@FXML
 	private Button readNowButton;
 
@@ -155,6 +154,7 @@ public class AppController{
 	
 	@FXML
 	void initialize() {
+		
 		readNowButton.setVisible(false);
 		rentButton.setVisible(false);
 		itemTableView.setVisible(true);
@@ -171,11 +171,17 @@ public class AppController{
 
 	@FXML
     private void readNewsletterButtonButtonOnAction(ActionEvent e) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Newsletter.fxml"));
-        Parent root = loader.load();
-        stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
+		FXMLLoader loader = new FXMLLoader(getClass().getResource("Newsletter.fxml"));
+		Parent root = loader.load();
+		NewsletterController newsletter = loader.getController();
+		newsletter.setUser();
+		
+		if (root != null) {
+			stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+			scene = new Scene(root);
+			stage.setScene(scene);
+			stage.show();
+		}
     } 
     
     @FXML
@@ -310,12 +316,16 @@ public class AppController{
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("Purchase.fxml"));
 		Parent root = loader.load();
 		PurchaseController purchaseController = loader.getController();
+		purchaseController.setUser();
 		purchaseController.addBoardToShoppingCart(selectedBoard); //add the item to the shopping cart 
+		
 		stage = (Stage)((Node)e.getSource()).getScene().getWindow();
 		stage.setScene(new Scene(root));
 		stage.show();
+		
+		}
 
-	}
+	
 	
 	@FXML
 	void textbookSelection(MouseEvent event) throws IOException {
@@ -408,14 +418,14 @@ public class AppController{
 	 *Initializes TableView for user rented items
 	 *Sets up search bar
 	 */
-	public void setUser(String email, String password) throws IOException {
-		this.email = email;
-		this.password = password;
-		this.user = Database.getInstance().getUser(email,password);
+	public void setUser() throws IOException {
+		this.user=StoreUser.getInstance().getUser();
+		this.email=user.getEmail();
+		this.password=user.getPassword();
 		displayUser();
+		itemSearchObservableList.clear();
 		
-		
-		Database.getInstance().loadStock();	//Loads library stock in database class
+		sectionLabel.setText("Home");
 		user.loadRentedItemsList();			//Loads user rented items in User class
 		
 		itemSearchObservableList.addAll(user.getRentedItemsList());

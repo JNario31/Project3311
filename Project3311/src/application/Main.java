@@ -20,14 +20,15 @@ public class Main extends Application {
 	            
 	            Database.getInstance().loadUsers();
 	            Database.getInstance().loadStudents();
-	            
-	            Database.getInstance().loadItems();
+	            Database.getInstance().loadFaculty();
+	            Database.getInstance().loadItems(); //added
+	            Database.getInstance().loadStock(); //added2
 	            Database.getInstance().loadCourses();
 	            Database.getInstance().loadEnroll();
 	            Database.getInstance().loadCoursesETextbooks();
+	            Database.getInstance().loadCoursesTextbooks(); //added
 	            Database.getInstance().loadNewsletterService();
 	            Database.getInstance().loadNewsletterServiceSubscribers();
-	         
 	            
 	            
 	            Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));

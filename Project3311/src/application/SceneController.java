@@ -29,6 +29,22 @@ public class SceneController {
 	private TextField emailTextField;
 	@FXML
 	private PasswordField passwordPasswordField;
+	
+	public static void main(String[] args) throws IOException {
+		 Database.getInstance().loadUsers();
+         Database.getInstance().loadStudents();
+         Database.getInstance().loadFaculty();
+         Database.getInstance().loadItems(); //added
+         Database.getInstance().loadStock(); //added2
+         Database.getInstance().loadCourses();
+         Database.getInstance().loadEnroll();
+         Database.getInstance().loadCoursesETextbooks();
+         Database.getInstance().loadCoursesTextbooks(); //added
+         Database.getInstance().loadNewsletterService();
+         Database.getInstance().loadNewsletterServiceSubscribers();
+         User user = StoreUser.getInstance().requestUser("123456", "123A#a");
+         System.out.println(user);
+	}
 
 	
 	/*
@@ -46,7 +62,7 @@ public class SceneController {
 				String email = emailTextField.getText();
 				String password = passwordPasswordField.getText();
 
-				User user = Database.getInstance().getUser(email, password);
+				User user = StoreUser.getInstance().requestUser(email, password);
 				if (user != null) {
 					String userType = user.getUserType();
 					FXMLLoader loader = null;
@@ -56,18 +72,18 @@ public class SceneController {
 						loader = new FXMLLoader(getClass().getResource("Student.fxml"));
 						root = loader.load();
 						StudentController student = loader.getController();
-						student.setStudent(email, password);
+						student.setStudent();
 						
 					} else if (userType.equals("faculty")) {
 						loader = new FXMLLoader(getClass().getResource("Faculty.fxml"));
 						root = loader.load();
 						FacultyController faculty = loader.getController();
-						faculty.setUser(email, password);
+						faculty.setFaculty(); //added
 					} else {
 						loader = new FXMLLoader(getClass().getResource("App.fxml"));
 						root = loader.load();
 						AppController app = loader.getController();
-						app.setUser(email, password);
+						app.setUser();
 					}
 
 					if (root != null) {

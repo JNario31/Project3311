@@ -23,8 +23,16 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import users.User;
 
 public class PurchaseController {
+	
+	private User user;
+	private Stage stage;
+	private Scene scene;
+	private Parent root;
+	private String email;
+	private String password;
 	
     @FXML
     private CheckBox academicCheckBox;
@@ -160,9 +168,42 @@ public class PurchaseController {
     	return true;
     }
     
-    public void onGoBackButtonAction(ActionEvent e) {
-
+    public void onGoBackButtonAction(ActionEvent e) throws IOException {
+    	String userType = user.getUserType();
+		FXMLLoader loader = null;
+		Parent root = null;
+		if (userType.equals("student")) {
+			loader = new FXMLLoader(getClass().getResource("Student.fxml"));
+			root = loader.load();
+			StudentController student = loader.getController();
+			student.setStudent();
+			
+		} else if (userType.equals("faculty")) {
+			loader = new FXMLLoader(getClass().getResource("Faculty.fxml"));
+			root = loader.load();
+			FacultyController faculty = loader.getController();
+			faculty.setFaculty(); //added
+		} else {
+			loader = new FXMLLoader(getClass().getResource("App.fxml"));
+			root = loader.load();
+			AppController app = loader.getController();
+			app.setUser();
+		}
+		
+		if (root != null) {
+			stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+			scene = new Scene(root);
+			stage.setScene(scene);
+			stage.show();
+		}
     }
+
+	public void setUser() throws IOException {
+		this.user=StoreUser.getInstance().getUser();
+		this.email=user.getEmail();
+		this.password=user.getPassword();
+		
+	}
 }
 
 

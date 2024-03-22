@@ -1,11 +1,10 @@
-
-
 package application;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 import items.Item;
+import users.Faculty;
 import users.Student;
 
 public class Course {
@@ -14,6 +13,7 @@ public class Course {
 	String id;
 	String instructor;
 	ArrayList<Student> students = new ArrayList<>();
+	ArrayList<Faculty> faculty = new ArrayList<>();
 	ArrayList<Item> eTextbooks = new ArrayList<>();
 	ArrayList<Item> textbooks = new ArrayList<>();
 	
@@ -61,6 +61,12 @@ public class Course {
 	public void addStudents(ArrayList<Student> students) throws IOException {
 		this.students.addAll(students);
 	}
+
+	//added
+	public void addFaculty(ArrayList<Faculty> faculty) throws IOException{
+		this.faculty.addAll(faculty);
+		
+	}
 	
 	public void addETextbooks(Item eTextbooks) {
 		this.eTextbooks.add(eTextbooks);
@@ -69,17 +75,23 @@ public class Course {
 	public ArrayList<Item> getETextbooks(){
 		return this.eTextbooks;
 	}
+	public ArrayList<Item> getTextbooks(){
+		return this.textbooks;
+	}
 	
 	public ArrayList<Student> getStudents() {
 		return students;
+	}
+	//added 
+	public ArrayList<Faculty> getFaculty() {
+		return faculty;
 	}
 
 	public void addTextbooks(Item textbook) {
 		this.textbooks.add(textbook);
 		
 	}
-	public ArrayList<Item> getTextbooks(){
-		return this.textbooks;
-	}
+
+
 	
 }

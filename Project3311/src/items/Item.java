@@ -14,6 +14,8 @@ public abstract class Item {
 	public double price;
 	public LocalDate dueDate;
 	public LocalDate date;
+	public String version;
+	public String oldVersion;
 
 	
 		public Item(String type,String name, int id, String location, String purchase, String email, double price) {
@@ -101,7 +103,21 @@ public abstract class Item {
 		public void setDate(LocalDate date) {
 			this.date = date;
 		}
+		
+		public String getVersion() {
+            return version;
+        }
 
+        public void setVersion(String version) {
+            this.version = version;
+        }
+        public String getOldVersion() {
+            return oldVersion;
+        }
+
+        public void setOldVersion(String version) {
+            this.oldVersion = version;
+        }
 		
 		public String toString() {
 	        return this.getName();

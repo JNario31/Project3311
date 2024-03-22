@@ -28,7 +28,7 @@ public class Student extends User{
 	public void enrollCourse() throws IOException {
 		for(Course course: Database.getInstance().getCourses()) {
 			for(Student s: course.getStudents()) {
-				if(s.getId()==id) {
+				if(s.getId()==id && !(courses.contains(course))) {
 					courses.add(course);
 				}
 			}
@@ -37,7 +37,9 @@ public class Student extends User{
 	
 	public void loadETextbooksList() {
 		for(Course course : courses) {
-			eTextbooks.addAll(course.getETextbooks());
+			if(!(eTextbooks.containsAll(course.getETextbooks()))) {
+				eTextbooks.addAll(course.getETextbooks());
+			}
 		}
 	}
 	

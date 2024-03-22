@@ -39,16 +39,18 @@ public abstract class User implements Subscriber{
 	
 	public void loadRentedItemsList() throws IOException {
 		for(Item item : Database.getInstance().items) {
-			if(item.getUserEmail().contains(email)) {
+			if(item.getUserEmail().equals(email) && !(rentedItems.contains(item))) { //changed contains to equals
 				rentedItems.add(item);
 			}
 		}
 	}
 	
+	
+	
 	public void rentItem(Item i) {
 		rentedItems.add(i);
 	}
-	
+
 	public void unrentItem(Item i) {
 		rentedItems.remove(i);
 	}
@@ -131,7 +133,6 @@ public abstract class User implements Subscriber{
 	}
 	
 }
-
 
 
 

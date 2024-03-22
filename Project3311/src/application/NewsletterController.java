@@ -15,10 +15,11 @@ import javafx.scene.control.Button;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import users.User;
 
 public class NewsletterController implements Initializable{
 	
-	
+	private User user;
 	private Stage stage;
 	private Scene scene;
 	private Parent root;
@@ -31,6 +32,8 @@ public class NewsletterController implements Initializable{
 	
 	@FXML
 	private Button returnButton;
+	private String email;
+	private String password;
 
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
@@ -46,11 +49,40 @@ public class NewsletterController implements Initializable{
 	
 	@FXML
 	private void returnButtonOnAction(ActionEvent e) throws IOException{
-		Parent root = FXMLLoader.load(getClass().getResource("Student.fxml"));
-		stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-		scene = new Scene(root);
-		stage.setScene(scene);
-		stage.show();
+		String userType = user.getUserType();
+		FXMLLoader loader = null;
+		Parent root = null;
+		if (userType.equals("student")) {
+			loader = new FXMLLoader(getClass().getResource("Student.fxml"));
+			root = loader.load();
+			StudentController student = loader.getController();
+			student.setStudent();
+			
+		} else if (userType.equals("faculty")) {
+			loader = new FXMLLoader(getClass().getResource("Faculty.fxml"));
+			root = loader.load();
+			FacultyController faculty = loader.getController();
+			faculty.setFaculty(); //added
+		} else {
+			loader = new FXMLLoader(getClass().getResource("App.fxml"));
+			root = loader.load();
+			AppController app = loader.getController();
+			app.setUser();
+		}
+		
+		if (root != null) {
+			stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+			scene = new Scene(root);
+			stage.setScene(scene);
+			stage.show();
+		}
+	}
+	
+	public void setUser() throws IOException {
+		this.user=StoreUser.getInstance().getUser();
+		this.email=user.getEmail();
+		this.password=user.getPassword();
+		
 	}
 
 }

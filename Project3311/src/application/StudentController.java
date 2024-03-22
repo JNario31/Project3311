@@ -181,11 +181,17 @@ public class StudentController extends AppController{
 	//added
     @FXML
     private void readNewsletterButtonButtonOnAction(ActionEvent e) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("Newsletter.fxml"));
-        Parent root = loader.load();
-        stage = (Stage)((Node)e.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("Newsletter.fxml"));
+		Parent root = loader.load();
+		NewsletterController newsletter = loader.getController();
+		newsletter.setUser();
+		
+		if (root != null) {
+			stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+			scene = new Scene(root);
+			stage.setScene(scene);
+			stage.show();
+		}
     } 
     
     @FXML
@@ -205,11 +211,13 @@ public class StudentController extends AppController{
 	 */
 	@FXML
 	private void switchToHomeView(ActionEvent event) throws IOException {
+		removeTextbookDetails();
 		itemSearchObservableList.clear();
 		itemTableView.setVisible(true);
 		courseTableView.setVisible(false);
 		requestFormVBox.setVisible(false);
-		requestItemButton.setVisible(false);
+		requestItemButton.setVisible(false); //added3
+		purchaseButton.setVisible(false);	//added3
 		itemSearchObservableList.addAll(user.getRentedItemsList());
 		sectionLabel.setText("Home");
 	}
@@ -222,6 +230,8 @@ public class StudentController extends AppController{
 	@FXML
 	private void switchToStoreView(ActionEvent event) throws IOException {
 		itemSearchObservableList.clear();
+		readNewsletterButton.setVisible(false);    //added3
+        unsubscribeButton.setVisible(false);    //added3
 		itemTableView.setVisible(true);
 		courseTableView.setVisible(false);
 		requestFormVBox.setVisible(false);
@@ -285,6 +295,8 @@ public class StudentController extends AppController{
 	@FXML
 	void switchToETextbooksView(ActionEvent event) throws IOException {
 		itemSearchObservableList.clear();
+		readNewsletterButton.setVisible(false);    //added3
+        unsubscribeButton.setVisible(false);    //added3
 		itemTableView.setVisible(true);
 		courseTableView.setVisible(false);
 		requestFormVBox.setVisible(false);
@@ -466,7 +478,9 @@ public class StudentController extends AppController{
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("Purchase.fxml"));
 		Parent root = loader.load();
 		PurchaseController purchaseController = loader.getController();
+		purchaseController.setUser();
 		purchaseController.addBoardToShoppingCart(selectedBoard); //add the item to the shopping cart 
+		
 		stage = (Stage)((Node)e.getSource()).getScene().getWindow();
 		stage.setScene(new Scene(root));
 		stage.show();
@@ -489,15 +503,16 @@ public class StudentController extends AppController{
 	 *Initializes TableView for user rented items
 	 *Sets up search bar
 	 */
-	 public void setStudent(String email, String password) throws IOException {
-	        this.email = email;
-	        this.password=password;
-	        this.user = Database.getInstance().getStudent(email,password);
+	 public void setStudent() throws IOException {
+		 	this.user=(Student) StoreUser.getInstance().getUser();
+			this.email=user.getEmail();
+			this.password=user.getPassword();
 	        displayUser();
-
+	       // itemSearchObservableList.clear();
+	        
 	        sectionLabel.setText("Home");    //added 
-	        Database.getInstance().loadStock();    //Loads library stock in database class
-	        Database.getInstance().loadSubscription(user);
+	      
+	        
 	        user.loadRentedItemsList();            //Loads user rented items in User class
 	        user.enrollCourse();                //enrolls students courses
 	        user.loadETextbooksList();         //Loads user eTextbooks items in the user class 

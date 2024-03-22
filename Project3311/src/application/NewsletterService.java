@@ -9,7 +9,7 @@ import items.Newsletter;
 import users.Student;
 import users.User;
 
-public class NewsletterService implements Notifications{
+public class NewsletterService implements Notifications,Subject1{
 	
 
 	
@@ -74,14 +74,14 @@ public class NewsletterService implements Notifications{
 	}
 	
 	public static void main(String[] args) throws IOException {
-		Database.getInstance().loadItems();
-		System.out.println(Database.getInstance().getItems());
-		Database.getInstance().loadNewsletterService();
-		User st = new Student();
-		Database.getInstance().getNewsletterService().subscribe(st);
-		System.out.println(Database.getInstance().getNewsletterService().subscribers);
-		Database.getInstance().getNewsletterService().notifyUsers();
-		System.out.println(st.getRentedItemsList());
+//		Database.getInstance().loadItems();
+//		System.out.println(Database.getInstance().getItems());
+//		Database.getInstance().loadNewsletterService();
+//		User st = new Student();
+//		Database.getInstance().getNewsletterService().subscribe(st);
+//		System.out.println(Database.getInstance().getNewsletterService().subscribers);
+//		Database.getInstance().getNewsletterService().notifyUsers();
+//		System.out.println(st.getRentedItemsList());
 		
 	}
 	
